@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Background Color</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 🔥 enlève scroll blanc */
+  font-family: Arial;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+#preview {
+  width: 150px;
+  height: 60px;
+  border: 3px solid black;
+  margin-bottom: 20px;
+  display: none;
+}
+
+input[type="color"] {
+  width: 120px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+}
+
+button {
+  margin-top: 20px;
+  padding: 8px 25px;
+  font-size: 14px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="preview"></div>
+<input type="color" id="picker">
+<button id="applyBtn">Apply</button>
+
+<script>
+const { ipcRenderer } = require("electron");
+const picker = document.getElementById("picker");
+const preview = document.getElementById("preview");
+let languages = {};
+let currentLanguage = "en";
+let languagesLoaded = false;
+
+// Load languages from file
+const languagesPromise = fetch("language.json")
+  .then(res => res.json())
+  .then(data => {
+    languages = data;
+    languagesLoaded = true;
+    currentLanguage = "en";
+    updateLanguage("en");
+    return true;
+  });
+
+function updateLanguage(lang) {
+  if (!languages[lang]) {
+    console.log("[color] Language not loaded yet:", lang);
+    return;
+  }
+  currentLanguage = lang;
+  if (document.getElementById("applyBtn")) {
+    document.getElementById("applyBtn").textContent = languages[lang].applyTheme || "Apply";
+  }
+  console.log("[color] Updated language to:", lang);
+}
+
+// Listen for language changes
+ipcRenderer.on("change-language", (e, lang) => {
+  languagesPromise.then(() => {
+    updateLanguage(lang);
+  });
+});
+
+/* Apply button handler */
+document.getElementById("applyBtn").addEventListener("click", apply);
+
+/* 🔥 Charger la couleur actuelle au démarrage */
+ipcRenderer.on("load-current-color", (e, color) => {
+  picker.value = color;
+  document.body.style.background = color;
+  preview.style.background = color;
+});
+
+/* 🔥 Couleur en direct */
+picker.addEventListener("input", () => {
+  document.body.style.background = picker.value;
+  preview.style.background = picker.value;
+});
+
+/* 🔥 Appliquer au logiciel */
+function apply(){
+  console.log("[color] apply clicked", picker.value);
+  ipcRenderer.send("apply-color", picker.value);
+}
+</script>
+
+</body>
+</html>

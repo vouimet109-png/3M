@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Calculatrice</title>
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+#calc-container {
+  width: 350px;
+  background: rgba(32, 32, 32, 0.6); /* plus transparent pour voir le fond animé */
+  border: 2px solid rgba(255,255,255,0.5); /* contour blanc semi-transparant */
+  border-radius: 16px;
+  /* ombre enlevée pour fond dégagé */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  margin: auto;
+}
+
+#backBtn {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 48px;
+  height: 48px;
+  background: #43e97b; /* même couleur que le bouton principal */
+  color: #222;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(67,233,123,0.25);
+}
+
+#backBtn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+#calcDisplay {
+  width: 100%;
+  height: 60px;
+  padding: 12px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(20, 20, 20, 0.6);
+  color: #fff;
+  font-size: 28px;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto auto auto auto;
+  gap: 8px;
+  width: 100%;
+}
+
+button {
+  height: 50px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: white;
+  background: rgba(60, 60, 60, 0.7); /* un peu transparent pour laisser passer le matrix */
+}
+
+button:hover {
+  background: rgba(80, 80, 80, 0.9);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Boutons mémoire */
+button.mem {
+  background: rgba(40, 40, 40, 0.9);
+  color: rgba(200, 200, 200, 0.7);
+  font-size: 12px;
+}
+
+button.mem:hover {
+  background: rgba(50, 50, 50, 0.9);
+}
+
+/* Boutons opérateurs */
+button.operator {
+  background: rgba(255, 140, 0, 0.85);
+  color: white;
+  font-size: 20px;
+}
+
+button.operator:hover {
+  background: rgba(255, 160, 20, 0.9);
+}
+
+/* Bouton égal */
+#equalBtn {
+  background: rgba(244, 180, 100, 0.9);
+  color: rgba(40, 40, 40, 0.9);
+  font-weight: bold;
+  grid-column: span 2;
+}
+
+#equalBtn:hover {
+  background: rgba(255, 200, 130, 0.95);
+}
+
+/* Boutons clairs */
+button.clear {
+  background: rgba(211, 50, 50, 0.85);
+  color: white;
+}
+
+button.clear:hover {
+  background: rgba(231, 70, 70, 0.9);
+}
+
+/* Boutons fonction */
+button.function {
+  background: rgba(100, 150, 200, 0.8);
+  color: white;
+  font-size: 16px;
+}
+
+button.function:hover {
+  background: rgba(120, 170, 220, 0.9);
+}
+</style>
+</head>
+
+<body>
+
+<div id="calc-container">
+  <button id="backBtn">←</button>
+  <input type="text" id="calcDisplay" readonly>
+  
+  <div class="buttons-grid">
+    <button class="function" style="grid-column: span 2;">⌫</button>
+    <button class="function">%</button>
+    <button class="operator">÷</button>
+    
+    <button>7</button>
+    <button>8</button>
+    <button>9</button>
+    <button class="operator">×</button>
+    
+    <button>4</button>
+    <button>5</button>
+    <button>6</button>
+    <button class="operator">-</button>
+    
+    <button>1</button>
+    <button>2</button>
+    <button>3</button>
+    <button class="operator">+</button>
+    
+    <button style="grid-column: span 2;">0</button>
+    <button>.</button>
+    <button class="clear" style="grid-column: 4; grid-row: 5 / span 2; min-height: 130px;">C</button>
+    
+    <button id="equalBtn" style="grid-column: 1 / 4; grid-row: 6;">=</button>
+  </div>
+</div>
+
+<script src="calculatrice.js"></script>
+
+</body>
+</html>

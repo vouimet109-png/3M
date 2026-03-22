@@ -1,0 +1,25 @@
+{
+  "name": "3M",
+  "productName": "3M",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^29.4.6",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+  "appId": "com.3m.app",
+  "productName": "3M",
+  "asar": false,
+  "compression": "store",
+  "win": {
+    "target": "portable",
+    "icon": "icon.ico"
+    }
+  }
+}

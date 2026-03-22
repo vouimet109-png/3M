@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Themes</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.container {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.theme-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.theme-btn {
+  padding: 12px;
+  border: 2px solid #ddd;
+  background: #f5f5f5;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 13px;
+}
+
+.theme-btn:hover {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+
+.theme-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+}
+
+.options {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  min-height: 80px;
+}
+
+.option {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.option:last-child {
+  margin-bottom: 0;
+}
+
+.option label {
+  color: #555;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.option input[type="range"] {
+  width: 120px;
+  height: 6px;
+  border-radius: 3px;
+  background: #ddd;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.option input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.option input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #667eea;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.option input[type="color"] {
+  width: 50px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.speed-value {
+  color: #667eea;
+  font-weight: 600;
+  min-width: 30px;
+  text-align: right;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.apply-btn:active {
+  transform: translateY(0);
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1 id="themeTitle">✨ <span id="themesLabel">Themes</span></h1>
+  
+  <div class="theme-selector">
+    <button class="theme-btn active" data-theme="galactic" id="btn-galactic">🌌 <span id="themeGalacticLabel">Galactic</span></button>
+    <button class="theme-btn" data-theme="matrix" id="btn-matrix">💚 <span id="themeMatrixLabel">Matrix</span></button>
+    <button class="theme-btn" data-theme="ocean" id="btn-ocean">🌊 <span id="themeOceanLabel">Ocean</span></button>
+  </div>
+
+  <div class="options">
+    <!-- Galactic Options -->
+    <div id="galactic-opts">
+      <div class="option">
+        <label id="label-gspeed">Speed:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="gSpeed" min="0.5" max="5" step="0.5" value="1">
+          <span class="speed-value" id="gSpeedVal">1</span>
+        </div>
+      </div>
+      <div class="option">
+        <label id="label-gstarcount">Stars Count:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="gStarCount" min="50" max="300" step="10" value="150">
+          <span class="speed-value" id="gStarCountVal">150</span>
+        </div>
+      </div>
+      <div class="option">
+        <label id="label-gstarsize">Star Size:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="gStarSize" min="1" max="4" step="0.5" value="2">
+          <span class="speed-value" id="gStarSizeVal">2</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Matrix Options -->
+    <div id="matrix-opts" class="hidden">
+      <div class="option">
+        <label id="label-mspeed">Speed:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="mSpeed" min="0.5" max="5" step="0.5" value="1">
+          <span class="speed-value" id="mSpeedVal">1</span>
+        </div>
+      </div>
+      <div class="option">
+        <label id="label-morientation">Orientation:</label>
+        <select id="mDirection" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer;">
+          <option value="vertical" selected id="opt-vertical">Vertical</option>
+          <option value="horizontal" id="opt-horizontal">Horizontal</option>
+        </select>
+      </div>
+      <div class="option">
+        <label id="label-mscrolldir">Scroll Direction:</label>
+        <select id="mScrollDir" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer;">
+          <option value="down" selected id="opt-down">Down ↓</option>
+          <option value="up" id="opt-up">Up ↑</option>
+        </select>
+      </div>
+      <div class="option">
+        <label id="label-mfontsize">Font Size:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="mFontSize" min="10" max="100" step="2" value="16">
+          <span class="speed-value" id="mFontSizeVal">16</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ocean Options -->
+    <div id="ocean-opts" class="hidden">
+      <div class="option">
+        <label id="label-obubblesize">Bubble Size:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="oBubbleSize" min="20" max="200" step="5" value="80">
+          <span class="speed-value" id="oBubbleSizeVal">80</span>
+        </div>
+      </div>
+      <div class="option">
+        <label id="label-obubblespped">Bubble Speed:</label>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <input type="range" id="oBubbleSpeed" min="0.5" max="5" step="0.1" value="1">
+          <span class="speed-value" id="oBubbleSpeedVal">1</span>
+        </div>
+      </div>
+      <div class="option">
+        <label id="label-obubbledir">Direction:</label>
+        <select id="oBubbleDir" style="padding: 6px 10px; border-radius: 6px; border: 1px solid #ddd; cursor: pointer;">
+          <option value="up" selected id="opt-obup">Up ↑</option>
+          <option value="down" id="opt-obdown">Down ↓</option>
+          <option value="left" id="opt-obleft">Left ←</option>
+          <option value="right" id="opt-obright">Right →</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="apply-btn" id="applyBtn">Apply Theme</button>
+</div>
+
+<script>
+const { ipcRenderer } = require("electron");
+let currentTheme = "galactic";
+let languages = {};
+let currentLanguage = "en";
+let languagesLoaded = false;
+
+// Load languages from file
+const languagesPromise = fetch("language.json")
+  .then(res => res.json())
+  .then(data => {
+    languages = data;
+    languagesLoaded = true;
+    currentLanguage = "en";
+    updateLanguage("en");
+    return true;
+  });
+
+// Update all UI text based on language
+function updateLanguage(lang) {
+  if (!languages[lang]) {
+    console.log("[theme] Language not loaded yet:", lang);
+    return;
+  }
+  currentLanguage = lang;
+
+  // Main title
+  document.getElementById("themesLabel").textContent = languages[lang].theme;
+  
+  // Theme buttons
+  document.getElementById("btn-galactic").innerHTML = `🌌 <span id="themeGalacticLabel">${languages[lang].themeGalactic}</span>`;
+  document.getElementById("btn-matrix").innerHTML = `💚 <span id="themeMatrixLabel">${languages[lang].themeMatrix}</span>`;
+  document.getElementById("btn-ocean").innerHTML = `🌊 <span id="themeOceanLabel">${languages[lang].themeOcean}</span>`;
+
+  // Galactic options
+  document.getElementById("label-gspeed").textContent = languages[lang].speed;
+  document.getElementById("label-gstarcount").textContent = languages[lang].starCount;
+  document.getElementById("label-gstarsize").textContent = languages[lang].starSize;
+
+  // Matrix options
+  document.getElementById("label-mspeed").textContent = languages[lang].speed;
+  document.getElementById("label-morientation").textContent = languages[lang].orientation;
+  document.getElementById("label-mscrolldir").textContent = languages[lang].scrollDirection;
+  document.getElementById("label-mfontsize").textContent = "Font Size:";
+
+  // Select options
+  document.getElementById("opt-vertical").textContent = languages[lang].vertical;
+  document.getElementById("opt-horizontal").textContent = languages[lang].horizontal;
+  document.getElementById("opt-down").textContent = languages[lang].down;
+  document.getElementById("opt-up").textContent = languages[lang].up;
+
+  // Ocean options
+  document.getElementById("label-obubblesize").textContent = languages[lang].bubbleSize;
+  document.getElementById("label-obubblespped").textContent = languages[lang].bubbleSpeed;
+  document.getElementById("label-obubbledir").textContent = languages[lang].bubbleDirection;
+
+  document.getElementById("opt-obleft").textContent = languages[lang].left;
+  document.getElementById("opt-obright").textContent = languages[lang].right;
+  document.getElementById("opt-obup").textContent = languages[lang].up;
+  document.getElementById("opt-obdown").textContent = languages[lang].down;
+
+  // Apply button
+  document.getElementById("applyBtn").textContent = languages[lang].applyTheme;
+  
+  console.log("[theme] Updated language to:", lang);
+}
+
+// Listen for language change from main process
+ipcRenderer.on("change-language", (e, lang) => {
+  languagesPromise.then(() => {
+    updateLanguage(lang);
+  });
+});
+
+// Load saved theme config from main process
+ipcRenderer.on("load-theme-config", (e, savedTheme) => {
+  if (!savedTheme) return;
+
+  // Set the active theme button
+  document.querySelectorAll(".theme-btn").forEach(b => {
+    b.classList.remove("active");
+    if (b.dataset.theme === savedTheme.type) {
+      b.classList.add("active");
+    }
+  });
+  currentTheme = savedTheme.type;
+
+  // Load the values into inputs based on theme type
+  if (savedTheme.type === "galactic") {
+    if (savedTheme.galacticSpeed !== undefined) document.getElementById("gSpeed").value = savedTheme.galacticSpeed;
+    if (savedTheme.galacticStarsCount !== undefined) document.getElementById("gStarCount").value = savedTheme.galacticStarsCount;
+    if (savedTheme.galacticStarsSize !== undefined) document.getElementById("gStarSize").value = savedTheme.galacticStarsSize;
+    // Update display values
+    document.getElementById("gSpeedVal").textContent = document.getElementById("gSpeed").value;
+    document.getElementById("gStarCountVal").textContent = document.getElementById("gStarCount").value;
+    document.getElementById("gStarSizeVal").textContent = document.getElementById("gStarSize").value;
+  } else if (savedTheme.type === "matrix") {
+    if (savedTheme.matrixSpeed !== undefined) document.getElementById("mSpeed").value = savedTheme.matrixSpeed;
+    if (savedTheme.matrixOrientation === 1) document.getElementById("mDirection").value = "vertical";
+    else if (savedTheme.matrixOrientation === 2) document.getElementById("mDirection").value = "horizontal";
+    if (savedTheme.matrixScrollDirection === 1) document.getElementById("mScrollDir").value = "down";
+    else if (savedTheme.matrixScrollDirection === 2) document.getElementById("mScrollDir").value = "up";
+    else if (savedTheme.matrixScrollDirection === 3) document.getElementById("mScrollDir").value = "right";
+    else if (savedTheme.matrixScrollDirection === 4) document.getElementById("mScrollDir").value = "left";
+    if (savedTheme.matrixNumbersSize !== undefined) document.getElementById("mFontSize").value = savedTheme.matrixNumbersSize;
+    // Update display values
+    document.getElementById("mSpeedVal").textContent = document.getElementById("mSpeed").value;
+    document.getElementById("mFontSizeVal").textContent = document.getElementById("mFontSize").value;
+  } else if (savedTheme.type === "ocean") {
+    if (savedTheme.oceanBubblesSize !== undefined) document.getElementById("oBubbleSize").value = savedTheme.oceanBubblesSize;
+    if (savedTheme.oceanBubblesSpeed !== undefined) document.getElementById("oBubbleSpeed").value = savedTheme.oceanBubblesSpeed;
+    if (savedTheme.oceanBubblesDirection === 1) document.getElementById("oBubbleDir").value = "up";
+    else if (savedTheme.oceanBubblesDirection === 2) document.getElementById("oBubbleDir").value = "down";
+    else if (savedTheme.oceanBubblesDirection === 3) document.getElementById("oBubbleDir").value = "left";
+    else if (savedTheme.oceanBubblesDirection === 4) document.getElementById("oBubbleDir").value = "right";
+    // Update display values
+    document.getElementById("oBubbleSizeVal").textContent = document.getElementById("oBubbleSize").value;
+    document.getElementById("oBubbleSpeedVal").textContent = document.getElementById("oBubbleSpeed").value;
+  }
+
+  showOptions(savedTheme.type);
+});
+
+// Apply Theme Button Handler
+document.getElementById("applyBtn").addEventListener("click", applyTheme);
+
+// Theme selector
+document.querySelectorAll(".theme-btn").forEach(btn => {
+  btn.addEventListener("click", function() {
+    document.querySelectorAll(".theme-btn").forEach(b => b.classList.remove("active"));
+    this.classList.add("active");
+    currentTheme = this.dataset.theme;
+    showOptions(currentTheme);
+  });
+});
+
+// Show/hide options based on selected theme
+function showOptions(theme) {
+  document.querySelectorAll(".options > div").forEach(opt => opt.classList.add("hidden"));
+  document.getElementById(theme + "-opts").classList.remove("hidden");
+  if(theme === "matrix") {
+    updateScrollDirOptions();
+  }
+}
+
+// Update speed display
+document.getElementById("gSpeed").addEventListener("input", function() {
+  document.getElementById("gSpeedVal").textContent = this.value;
+});
+
+document.getElementById("gStarCount").addEventListener("input", function() {
+  document.getElementById("gStarCountVal").textContent = this.value;
+});
+
+document.getElementById("gStarSize").addEventListener("input", function() {
+  document.getElementById("gStarSizeVal").textContent = this.value;
+});
+
+document.getElementById("mSpeed").addEventListener("input", function() {
+  document.getElementById("mSpeedVal").textContent = this.value;
+});
+
+document.getElementById("mFontSize").addEventListener("input", function() {
+  document.getElementById("mFontSizeVal").textContent = this.value;
+});
+
+document.getElementById("oBubbleSize").addEventListener("input", function() {
+  document.getElementById("oBubbleSizeVal").textContent = this.value;
+});
+
+document.getElementById("oBubbleSpeed").addEventListener("input", function() {
+  document.getElementById("oBubbleSpeedVal").textContent = this.value;
+});
+
+// Update scroll direction options based on orientation
+function updateScrollDirOptions() {
+  const scrollDir = document.getElementById("mScrollDir");
+  const mDirection = document.getElementById("mDirection");
+  if(mDirection.value === "vertical"){
+    scrollDir.innerHTML = `<option value="down" selected id="opt-down">${languages[currentLanguage].down}</option><option value="up" id="opt-up">${languages[currentLanguage].up}</option>`;
+  } else {
+    scrollDir.innerHTML = `<option value="right" selected id="opt-right">Right →</option><option value="left" id="opt-left">Left ←</option>`;
+  }
+}
+
+document.getElementById("mDirection").addEventListener("change", updateScrollDirOptions);
+
+// Apply theme
+function applyTheme() {
+  let data = { name: currentTheme };
+  
+  if (currentTheme === "galactic") {
+    data.speed = parseFloat(document.getElementById("gSpeed").value);
+    data.starCount = parseInt(document.getElementById("gStarCount").value);
+    data.starSize = parseFloat(document.getElementById("gStarSize").value);
+  } else if (currentTheme === "matrix") {
+    data.speed = parseFloat(document.getElementById("mSpeed").value);
+    data.direction = document.getElementById("mDirection").value;
+    data.scrollDir = document.getElementById("mScrollDir").value;
+    data.fontSize = parseInt(document.getElementById("mFontSize").value);
+  } else if (currentTheme === "ocean") {
+    data.bubbleSize = parseInt(document.getElementById("oBubbleSize").value);
+    data.bubbleSpeed = parseFloat(document.getElementById("oBubbleSpeed").value);
+    data.bubbleDir = document.getElementById("oBubbleDir").value;
+  }
+
+  console.log("[theme] applyTheme clicked", data);
+  ipcRenderer.send("apply-theme", data);
+}
+</script>
+
+</body>
+</html>
