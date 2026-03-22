@@ -1,0 +1,16 @@
+﻿{
+  "versions": [
+    {
+      "name": "Windows 1.0",
+      "file": "3M Windows 1.0.exe",
+      "path": "https://github.com/yourusername/3M/releases/download/v1.0/3M_Windows_1.0.exe",
+      "size": 0
+    },
+    {
+      "name": "Android 1.0",
+      "file": "3M Android 1.0.apk",
+      "path": "https://github.com/yourusername/3M/releases/download/v1.0/3M_Android_1.0.apk",
+      "size": 0
+    }
+  ]
+}
